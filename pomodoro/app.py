@@ -22,6 +22,9 @@ class App:
         self.switch_to_normal()
 
     def switch_to_normal(self):
+        if self._normal and self._normal.winfo_exists():
+            self._normal.destroy()
+            self._normal = None
         if self._mini and self._mini.winfo_exists():
             self._mini.destroy()
             self._mini = None

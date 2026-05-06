@@ -88,8 +88,3 @@ class MiniWindow(ctk.CTkToplevel):
         y = self.winfo_y() + event.y - self._drag_y
         self.geometry(f"+{x}+{y}")
 
-    def destroy(self):
-        super().destroy()
-
-    def show(self):
-        self.deiconify()

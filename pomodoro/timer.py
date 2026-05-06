@@ -22,6 +22,7 @@ class PomodoroTimer:
         self._tick_callback = None    # 单槽，切换窗口时覆盖，避免回调残留
         self._phase_callback = None
         self._tk = None
+        self._after_id = None
 
     def on_tick(self, callback):
         self._tick_callback = callback
@@ -42,16 +43,22 @@ class PomodoroTimer:
             self.phase = Phase.WORK
             self.remaining = self.durations[Phase.WORK]
             if self._phase_callback:
-                self._phase_callback(self.phase, self._completed_work)
+                self._phase_callback(self.phase, self._completed_work, notify=False)
         self.running = True
         if self._tk is not None:
             self._schedule_tick()
 
     def pause(self):
         self.running = False
+        if self._after_id is not None and self._tk is not None:
+            self._tk.after_cancel(self._after_id)
+            self._after_id = None
 
     def reset(self):
         self.running = False
+        if self._after_id is not None and self._tk is not None:
+            self._tk.after_cancel(self._after_id)
+            self._after_id = None
         self.phase = Phase.IDLE
         self.remaining = self.durations[Phase.WORK]
         self._completed_work = 0
@@ -78,7 +85,7 @@ class PomodoroTimer:
     def _schedule_tick(self):
         if not self.running or self._tk is None:
             return
-        self._tk.after(1000, self._tick)
+        self._after_id = self._tk.after(1000, self._tick)
 
     def _tick(self):
         if not self.running:

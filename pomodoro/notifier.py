@@ -1,4 +1,5 @@
 import subprocess
+import threading
 from pomodoro.timer import Phase
 
 _MESSAGES = {
@@ -12,9 +13,11 @@ def notify(phase: Phase):
     title, message = _MESSAGES.get(phase, ("番茄钟", ""))
     if not message:
         return
-    script = (
-        f'display notification "{message}" with title "{title}" sound name "Glass"'
-    )
+    threading.Thread(target=_send, args=(title, message), daemon=True).start()
+
+
+def _send(title: str, message: str):
+    script = f'display notification "{message}" with title "{title}" sound name "Glass"'
     try:
         subprocess.run(["osascript", "-e", script], check=True, timeout=5)
     except Exception:

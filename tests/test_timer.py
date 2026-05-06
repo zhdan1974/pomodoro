@@ -1,4 +1,3 @@
-import pytest
 from pomodoro.timer import PomodoroTimer, Phase
 
 def test_initial_state():

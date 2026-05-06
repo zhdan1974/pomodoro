@@ -30,6 +30,8 @@ class PomodoroTimer:
         self._phase_callback = callback
 
     def start(self, tk_widget=None):
+        if self.running:
+            return
         if tk_widget is not None:
             self._tk = tk_widget
         if self.phase == Phase.IDLE:

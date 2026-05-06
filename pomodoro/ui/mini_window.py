@@ -22,25 +22,27 @@ class MiniWindow(ctk.CTkToplevel):
         # 拖拽支持
         self.bind("<ButtonPress-1>", self._drag_start)
         self.bind("<B1-Motion>", self._drag_motion)
+        self._frame.bind("<ButtonPress-1>", self._drag_start)
+        self._frame.bind("<B1-Motion>", self._drag_motion)
 
     def _build_ui(self):
-        frame = ctk.CTkFrame(self, corner_radius=10)
-        frame.pack(fill="both", expand=True)
+        self._frame = ctk.CTkFrame(self, corner_radius=10)
+        self._frame.pack(fill="both", expand=True)
 
-        self._icon_label = ctk.CTkLabel(frame, text="🍅", font=("", 14))
+        self._icon_label = ctk.CTkLabel(self._frame, text="🍅", font=("", 14))
         self._icon_label.pack(side="left", padx=(8, 0))
 
-        self._time_label = ctk.CTkLabel(frame, text="25:00", font=("", 15, "bold"))
+        self._time_label = ctk.CTkLabel(self._frame, text="25:00", font=("", 15, "bold"))
         self._time_label.pack(side="left", padx=6)
 
         self._play_btn = ctk.CTkButton(
-            frame, text="▶", width=28, height=28,
+            self._frame, text="▶", width=28, height=28,
             command=self._toggle_start,
         )
         self._play_btn.pack(side="left", padx=2)
 
         ctk.CTkButton(
-            frame, text="□", width=28, height=28,
+            self._frame, text="□", width=28, height=28,
             command=self._expand,
         ).pack(side="left", padx=(2, 6))
 

@@ -13,7 +13,7 @@ class NormalWindow(ctk.CTkToplevel):
         self.title("番茄钟")
         self.resizable(False, False)
         self.geometry("300x320")
-        self.protocol("WM_DELETE_WINDOW", self.destroy)
+        self.protocol("WM_DELETE_WINDOW", self._app.quit)
 
         self._build_ui()
         self._timer.on_tick(self._on_tick)

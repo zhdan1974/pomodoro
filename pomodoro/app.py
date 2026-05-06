@@ -37,5 +37,8 @@ class App:
             self._normal = None
         self._mini = MiniWindow(self, self._timer, self._session)
 
+    def quit(self):
+        self._root.destroy()
+
     def run(self):
         self._root.mainloop()

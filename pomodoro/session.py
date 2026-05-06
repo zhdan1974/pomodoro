@@ -15,9 +15,12 @@ class Session:
     def _load(self):
         today = str(date.today())
         if self._path.exists():
-            data = json.loads(self._path.read_text())
-            if data.get("date") == today:
-                return data
+            try:
+                data = json.loads(self._path.read_text())
+                if data.get("date") == today:
+                    return data
+            except (json.JSONDecodeError, KeyError):
+                pass
         return {"date": today, "count": 0}
 
     def _save(self):

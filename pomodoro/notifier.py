@@ -5,7 +5,6 @@ _MESSAGES = {
     Phase.SHORT_BREAK: ("番茄钟", "专注结束，该休息了！"),
     Phase.LONG_BREAK:  ("番茄钟", "专注结束，好好休息一下！"),
     Phase.WORK:        ("番茄钟", "休息结束，继续加油！"),
-    Phase.IDLE:        ("番茄钟", "长休息结束，开始新一轮！"),
 }
 
 

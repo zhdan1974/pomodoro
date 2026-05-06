@@ -1,5 +1,6 @@
 import customtkinter as ctk
 from pomodoro.timer import Phase
+from pomodoro.notifier import notify
 
 
 class NormalWindow(ctk.CTkToplevel):
@@ -54,7 +55,7 @@ class NormalWindow(ctk.CTkToplevel):
 
     def _refresh_display(self):
         self._update_time(self._timer.remaining)
-        self._update_phase(self._timer.phase, self._timer._completed_work)
+        self._update_phase(self._timer.phase, self._timer.completed_work)
         self._update_count()
         self._start_btn.configure(
             text="暂停" if self._timer.running else "开始"
@@ -88,7 +89,6 @@ class NormalWindow(ctk.CTkToplevel):
         self._start_btn.configure(
             text="暂停" if self._timer.running else "开始"
         )
-        from pomodoro.notifier import notify
         notify(phase)
         # WORK 结束进入休息时计数（不是进入 WORK 时）
         if phase in (Phase.SHORT_BREAK, Phase.LONG_BREAK):

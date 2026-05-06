@@ -29,6 +29,10 @@ class PomodoroTimer:
     def on_phase_change(self, callback):
         self._phase_callback = callback
 
+    @property
+    def completed_work(self) -> int:
+        return self._completed_work
+
     def start(self, tk_widget=None):
         if self.running:
             return

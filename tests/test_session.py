@@ -1,9 +1,4 @@
-import pytest
 import json
-import tempfile
-import os
-from datetime import date
-from unittest.mock import patch
 from pomodoro.session import Session
 
 

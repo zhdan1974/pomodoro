@@ -23,8 +23,8 @@ class App:
 
     def switch_to_normal(self):
         if self._normal and self._normal.winfo_exists():
-            self._normal.destroy()
-            self._normal = None
+            self._normal.lift()
+            return
         if self._mini and self._mini.winfo_exists():
             self._mini.destroy()
             self._mini = None
@@ -32,6 +32,9 @@ class App:
         self._normal.lift()
 
     def switch_to_mini(self):
+        if self._mini and self._mini.winfo_exists():
+            self._mini.lift()
+            return
         if self._normal and self._normal.winfo_exists():
             self._normal.destroy()
             self._normal = None

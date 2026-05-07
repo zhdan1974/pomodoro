@@ -15,7 +15,7 @@ class MiniWindow(ctk.CTkToplevel):
         self.geometry("200x44+100+100")
 
         self._build_ui()
-        self._timer.on_tick(self._on_tick)
+        self._timer.on_tick(self._on_tick, tk_widget=self)
         self._timer.on_phase_change(self._on_phase_change)
         self._refresh()
 
@@ -24,7 +24,7 @@ class MiniWindow(ctk.CTkToplevel):
             widget.bind("<ButtonPress-1>", self._drag_start)
             widget.bind("<B1-Motion>", self._drag_motion)
 
-        self.after(100, self.focus_force)
+        self.after(200, self.focus_force)
 
     def _build_ui(self):
         self._frame = ctk.CTkFrame(self, corner_radius=10)

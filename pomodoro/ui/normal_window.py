@@ -16,7 +16,7 @@ class NormalWindow(ctk.CTkToplevel):
         self.protocol("WM_DELETE_WINDOW", self._app.quit)
 
         self._build_ui()
-        self._timer.on_tick(self._on_tick)
+        self._timer.on_tick(self._on_tick, tk_widget=self)
         self._timer.on_phase_change(self._on_phase_change)
         self._refresh_display()
 

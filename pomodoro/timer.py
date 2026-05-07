@@ -24,8 +24,10 @@ class PomodoroTimer:
         self._tk = None
         self._after_id = None
 
-    def on_tick(self, callback):
+    def on_tick(self, callback, tk_widget=None):
         self._tick_callback = callback
+        if tk_widget is not None:
+            self._tk = tk_widget
 
     def on_phase_change(self, callback):
         self._phase_callback = callback
@@ -51,13 +53,19 @@ class PomodoroTimer:
     def pause(self):
         self.running = False
         if self._after_id is not None and self._tk is not None:
-            self._tk.after_cancel(self._after_id)
+            try:
+                self._tk.after_cancel(self._after_id)
+            except Exception:
+                pass
             self._after_id = None
 
     def reset(self):
         self.running = False
         if self._after_id is not None and self._tk is not None:
-            self._tk.after_cancel(self._after_id)
+            try:
+                self._tk.after_cancel(self._after_id)
+            except Exception:
+                pass
             self._after_id = None
         self.phase = Phase.IDLE
         self.remaining = self.durations[Phase.WORK]
@@ -85,7 +93,11 @@ class PomodoroTimer:
     def _schedule_tick(self):
         if not self.running or self._tk is None:
             return
-        self._after_id = self._tk.after(1000, self._tick)
+        try:
+            self._after_id = self._tk.after(1000, self._tick)
+        except Exception:
+            self.running = False
+            self._after_id = None
 
     def _tick(self):
         if not self.running:

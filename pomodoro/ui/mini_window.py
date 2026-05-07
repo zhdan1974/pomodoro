@@ -19,11 +19,12 @@ class MiniWindow(ctk.CTkToplevel):
         self._timer.on_phase_change(self._on_phase_change)
         self._refresh()
 
-        # 拖拽支持
-        self.bind("<ButtonPress-1>", self._drag_start)
-        self.bind("<B1-Motion>", self._drag_motion)
-        self._frame.bind("<ButtonPress-1>", self._drag_start)
-        self._frame.bind("<B1-Motion>", self._drag_motion)
+        # 拖拽只绑定在非交互区域，避免影响按钮点击
+        for widget in (self._icon_label, self._time_label):
+            widget.bind("<ButtonPress-1>", self._drag_start)
+            widget.bind("<B1-Motion>", self._drag_motion)
+
+        self.after(100, self.focus_force)
 
     def _build_ui(self):
         self._frame = ctk.CTkFrame(self, corner_radius=10)
@@ -83,11 +84,13 @@ class MiniWindow(ctk.CTkToplevel):
         self._app.switch_to_normal()
 
     def _drag_start(self, event):
-        self._drag_x = event.x
-        self._drag_y = event.y
+        self._drag_x = event.x_root
+        self._drag_y = event.y_root
 
     def _drag_motion(self, event):
-        x = self.winfo_x() + event.x - self._drag_x
-        y = self.winfo_y() + event.y - self._drag_y
+        x = self.winfo_x() + event.x_root - self._drag_x
+        y = self.winfo_y() + event.y_root - self._drag_y
         self.geometry(f"+{x}+{y}")
+        self._drag_x = event.x_root
+        self._drag_y = event.y_root
 
